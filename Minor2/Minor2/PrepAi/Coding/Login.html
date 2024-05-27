@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrepAi</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="Login.css">
+    <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@7.12.15/dist/sweetalert2.min.css'>
+    </link>
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>LOGIN NOW</h2>
+        </div>
+        <form class="form" id="form">
+            <div class="form-control">
+                <label>Username</label>
+                <input type="text" name="name" id="username" placeholder="Enter Your Fullname" autocomplete="off">
+                <i class="fa-sharp fa-solid fa-circle-check"></i>
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <small>Error</small>
+            </div>
+            <div class="form-control">
+                <label>Email</label>
+                <input type="email" name="email" id="email" autocomplete="off" placeholder="Enter Your Email">
+                <i class="fa-sharp fa-solid fa-circle-check"></i>
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <small>Error</small>
+            </div>
+            <div class="form-control">
+                <label>Phone Number</label>
+                <input type="number" name="phone" id="phone" autocomplete="off" placeholder="Enter Your Phone Number">
+                <i class="fa-sharp fa-solid fa-circle-check"></i>
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <small>Error</small>
+            </div>
+            <div class="form-control">
+                <label>Password</label>
+                <input type="password" name="password" id="password" autocomplete="off" placeholder="Enter Your Password">
+                <i class="fa-sharp fa-solid fa-circle-check"></i>
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <small>Error</small>
+            </div>
+            <!-- <div class="form-control">
+                <label>Confirm Password</label>
+                <input type="cpassword" name="" id="password" autocomplete="off" placeholder="Enter Your fullname">
+                <i class="fa-sharp fa-solid fa-circle-check"></i>
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <small>Error</small>
+            </div> -->
+            <input type="submit" value="Submit" class="btn">
+        </form>
+    </div>
+    <script type="text/javascript">
+        const form = document.getElementById('form');
+        const username = document.getElementById('username');
+        const email = document.getElementById('email');
+        const phone = document.getElementById('phone');
+        const password = document.getElementById('password');
+
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+            validate();
+        })
+
+        const sendData = (sRate,count ,usernameVal) => {
+            if (sRate === count) {
+                alert('registration Successfull');
+                swal("Welcome! "+usernameVal," Registration Successful ","success");  
+                location.href=`index.html?username=${username}`;
+             }
+        }
+
+        const SuccessMsg = (usernameVal) => {
+            let formCon = document.getElementsByClassName('form-control');
+
+            var count = formCon.length - 1;
+            for (var i = 0; i < formCon.length; i++) {
+                if (formCon[i].className === "form-control success") {
+                    var sRate = 0+i;
+                    sendData(sRate, count,usernameVal);
+                }
+                else {
+                    return false;
+                }
+            }
+        }
+
+
+        const isEmail = (emailVal) => {
+            var atSymbol = emailVal.indexOf("@");
+            if (atSymbol < 1) return false;
+            var dot = emailVal.lastIndexOf('.');
+            if (dot <= atSymbol + 2) return false;
+            if (dot === emailVal.length - 1) return false;
+            return true;
+        }
+
+        const validate = () => {
+            const usernameVal = username.value.trim();
+            const emailVal = email.value.trim();
+            const phoneVal = phone.value.trim();
+            const passwordVal = password.value.trim();
+
+            //    username
+            if (usernameVal === "") {
+                setErrormsg(username, 'Enter Name');
+            }
+            else if (usernameVal.length <= 2) {
+                setErrormsg(username, 'Enter Min 3 Chaarcter');
+            }
+            else {
+                setSuccessmsg(username);
+            }
+
+            //    email
+            if (emailVal === "") {
+                setErrormsg(email, 'Enter Email');
+            }
+            else if (!isEmail(emailVal)) {
+                setErrormsg(emailVal, 'Not a valid Email');
+            }
+            else {
+                setSuccessmsg(email);
+            }
+
+            if (phoneVal === "") {
+                setErrormsg(phone, 'Phone Cannot be Blank');
+            }
+            else if (phoneVal.length != 10) {
+                setErrormsg(phone, 'Not a valid Phone No');
+            }
+            else {
+                setSuccessmsg(phone);
+            }
+
+            if (passwordVal === "") {
+                setErrormsg(password, 'Password Cannot be Blank');
+            }
+            else if (passwordVal.length <= 5) {
+                setErrormsg(password, 'Minimum 6 Character');
+            }
+            else {
+                setSuccessmsg(password);
+            }
+
+            SuccessMsg(usernameVal);
+        }
+
+        function setErrormsg(input, erroemsg) {
+            const formControl = input.parentElement;
+            console.log(formControl)
+            const small = formControl.querySelector('small');
+            formControl.className = "form-control error";
+            small.innerText = erroemsg;
+        }
+
+        function setSuccessmsg(input) {
+            const formControl = input.parentElement;
+            formControl.className = "form-control success";
+        }
+    </script> 
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+
+</body>
+
+</html>
+
+
